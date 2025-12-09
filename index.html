@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>kahootInnform - Multiplayer Classroom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Collegamento allo Stile -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Firebase SDKs (Dal Web) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+</head>
+
+<body>
+
+    <!-- 1. SETUP / HOME SCREEN -->
+    <div id="setup-screen" class="screen full-screen flex-center">
+        <h1 class="logo-title">kahootInnform</h1>
+        <h2 class="subtitle">Multiplayer Classroom</h2>
+        <div class="panel">
+            <p>Come vuoi partecipare?</p>
+            <button class="btn btn-black" onclick="initHost()">DOCENTE (Crea Partita)</button>
+            <button class="btn btn-black" onclick="showPlayerLogin()">STUDENTE (Entra)</button>
+        </div>
+        <p class="footer-note">Powered by Google Firebase</p>
+    </div>
+
+    <!-- 2. PLAYER LOGIN -->
+    <div id="player-login" class="screen full-screen flex-center hidden bg-blue">
+        <h1>Entra in partita</h1>
+        <input type="number" id="p-pin" placeholder="PIN Partita (es. 123456)">
+        <input type="text" id="p-name" placeholder="Il tuo Nickname">
+        <button class="btn btn-black" onclick="initPlayer()">ENTRA</button>
+        <button class="btn btn-transparent" onclick="location.reload()">Indietro</button>
+    </div>
+
+    <!-- 3. HOST LOBBY -->
+    <div id="lobby-screen" class="screen full-screen flex-center hidden bg-purple">
+        <div class="pin-box">
+            PIN PARTITA: <strong id="lobby-pin" class="big-pin">...</strong>
+        </div>
+        <div id="lobby-status">In attesa dei giocatori...</div>
+
+        <!-- Timer Setting -->
+        <div class="timer-setting" style="margin: 20px; color: white;">
+            <label for="game-timer-input">Secondi per domanda: </label>
+            <input type="number" id="game-timer-input" value="20" style="width: 80px; padding: 5px;">
+        </div>
+
+        <div id="player-list" class="player-grid">
+            <!-- I giocatori appariranno qui -->
+        </div>
+        <div id="host-controls" class="hidden">
+            <button class="btn btn-black" onclick="startGame()">INIZIA QUIZ</button>
+        </div>
+    </div>
+
+    <!-- 3b. PLAYER LOBBY (WAITING) -->
+    <div id="player-lobby-screen" class="screen full-screen flex-center hidden bg-purple">
+        <h1>Sei dentro!</h1>
+        <p style="color: white; font-size: 1.5rem;">Benvenuto, <span id="lobby-p-nick"
+                style="font-weight: bold;"></span></p>
+        <p style="color: white;">Vedi il tuo nome sullo schermo del prof?</p>
+        <div class="loader" style="margin-top: 20px;">⏳ In attesa dell'avvio...</div>
+    </div>
+
+    <!-- 4. HOST GAME VIEW -->
+    <div id="host-game-screen" class="screen full-screen hidden bg-light">
+        <div class="host-header">
+            <div>Domanda <span id="h-qnum">1</span>/30</div>
+            <div id="h-timer">Tempo: 20</div>
+        </div>
+
+        <div class="question-card" id="h-question-text">
+            Caricamento...
+        </div>
+
+        <!-- STATS & LEADERBOARD VIEW (Merged) -->
+        <div id="h-stats-view" class="hidden">
+            <div style="display: flex; height: 100%; gap: 20px;">
+                <!-- Left: Stats Graph -->
+                <div style="flex: 1; display: flex; flex-direction: column;">
+                    <!-- MOSTRO LA DOMANDA -->
+                    <h1 style="text-align: center; margin-bottom: 10px; font-size: 1.5rem;" id="stats-question-text">
+                    </h1>
+
+                    <h2 class="correct-text" style="text-align: center; margin-bottom: 20px;" id="correct-answer-text">
+                        ...</h2>
+
+                    <div class="stats-grid" style="flex: 1; min-height: 200px;">
+                        <div class="stat-bar-container">
+                            <div class="stat-count" id="count-0">0</div>
+                            <div class="stat-bar c-red" id="bar-0"></div>
+                            <div>▲</div>
+                        </div>
+                        <div class="stat-bar-container">
+                            <div class="stat-count" id="count-1">0</div>
+                            <div class="stat-bar c-blue" id="bar-1"></div>
+                            <div>◆</div>
+                        </div>
+                        <div class="stat-bar-container">
+                            <div class="stat-count" id="count-2">0</div>
+                            <div class="stat-bar c-yellow" id="bar-2"></div>
+                            <div>●</div>
+                        </div>
+                        <div class="stat-bar-container">
+                            <div class="stat-count" id="count-3">0</div>
+                            <div class="stat-bar c-green" id="bar-3"></div>
+                            <div>■</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Mini Leaderboard -->
+                <div
+                    style="flex: 0.6; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 8px; display: flex; flex-direction: column;">
+                    <h3 style="text-align: center; margin: 0 0 10px 0;">Classifica</h3>
+                    <div id="int-list" style="flex: 1; overflow-y: auto;"></div>
+                </div>
+            </div>
+
+            <center style="margin-top: 20px;">
+                <button class="btn btn-purple" onclick="nextQuestion()">Prossima Domanda >></button>
+            </center>
+        </div>
+
+        <!-- 4b. Removed separate intermediate leaderboard -->
+
+        <!-- ANSWERS LEGEND -->
+        <div id="h-answers-view" class="answers-grid-host">
+            <div class="leaderboard-row"><span class="badge c-red">▲</span> <span id="opt-0">...</span></div>
+            <div class="leaderboard-row"><span class="badge c-blue">◆</span> <span id="opt-1">...</span></div>
+            <div class="leaderboard-row"><span class="badge c-yellow">●</span> <span id="opt-2">...</span></div>
+            <div class="leaderboard-row"><span class="badge c-green">■</span> <span id="opt-3">...</span></div>
+        </div>
+    </div>
+
+    <!-- 6. FINAL LEADERBOARD -->
+    <div id="final-screen" class="screen full-screen flex-center hidden bg-purple">
+        <div style="width: 100%; max-width: 900px; padding: 20px;">
+            <h1 class="logo-title" style="text-align: center; margin-bottom: 40px;">🏆 PODIO FINALE 🏆</h1>
+
+            <!-- Podium Container -->
+            <div id="podium"
+                style="display: flex; justify-content: center; align-items: flex-end; gap: 20px; margin-bottom: 40px; height: 350px;">
+                <!-- Filled by JS -->
+            </div>
+
+            <!-- Remaining players -->
+            <div id="full-ranking" style="color: white; font-size: 1.2rem; max-width: 600px; margin: 0 auto;">
+                <!-- Other players -->
+            </div>
+
+            <center style="margin-top: 40px;">
+                <button class="btn btn-black" onclick="location.reload()">Nuova Partita</button>
+            </center>
+        </div>
+    </div>
+
+    <!-- 5. PLAYER GAME VIEW -->
+    <div id="player-game-screen" class="screen full-screen hidden column-layout">
+        <div class="status-bar">
+            <div id="p-nick">Player</div>
+            <div id="p-score">Punti: 0</div>
+        </div>
+
+        <div id="p-waiting" class="flex-center flex-grow">
+            <div class="wait-message" id="p-msg">Guarda lo schermo del prof!</div>
+        </div>
+
+        <div id="p-controller" class="controller-grid hidden">
+            <button class="control-btn c-red" onclick="submitAnswer(0)">▲</button>
+            <button class="control-btn c-blue" onclick="submitAnswer(1)">◆</button>
+            <button class="control-btn c-yellow" onclick="submitAnswer(2)">●</button>
+            <button class="control-btn c-green" onclick="submitAnswer(3)">■</button>
+        </div>
+
+        <div id="p-feedback" class="flex-center full-screen hidden bg-white z-top">
+            <h1 id="fb-title" class="fb-title">...</h1>
+            <h2 id="fb-points">...</h2>
+        </div>
+    </div>
+
+    <!-- Collegamento agli Script (IMPORTANTE: L'ordine conta) -->
+    <script src="Public/firebase-config.js?v=2"></script>
+    <script src="Public/js/app.js?v=4"></script>
+</body>
+
+</html>

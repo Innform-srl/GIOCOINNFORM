@@ -1,0 +1,61 @@
+/* LEADERBOARD PODIUM */
+.podium-grid {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    height: 300px;
+    margin-bottom: 20px;
+}
+
+.podium-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+}
+
+.podium-rank {
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: white;
+    border-radius: 8px 8px 0 0;
+}
+
+.rank-1 {
+    height: 250px;
+    background: #FFD700;
+    /* Gold */
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    order: 2;
+    /* Center */
+}
+
+.rank-2 {
+    height: 180px;
+    background: #C0C0C0;
+    /* Silver */
+    order: 1;
+    /* Left */
+}
+
+.rank-3 {
+    height: 120px;
+    background: #CD7F32;
+    /* Bronze */
+    order: 3;
+    /* Right */
+}
+
+.podium-name {
+    margin-top: 10px;
+    font-size: 1.5rem;
+}
+
+.podium-score {
+    font-size: 1rem;
+    opacity: 0.8;
+}

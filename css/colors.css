@@ -1,0 +1,16 @@
+/* Colors Utility (Restored) */
+.c-red {
+    background: var(--k-red);
+}
+
+.c-blue {
+    background: var(--k-blue);
+}
+
+.c-yellow {
+    background: var(--k-yellow);
+}
+
+.c-green {
+    background: var(--k-green);
+}
