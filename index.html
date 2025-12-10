@@ -24,39 +24,39 @@
         <h1 class="logo-title">kahootInnform</h1>
         <h2 class="subtitle">Multiplayer Classroom</h2>
         <div class="panel">
-            <p>Come vuoi partecipare?</p>
-            <button class="btn btn-black" onclick="initHost()">DOCENTE (Crea Partita)</button>
-            <button class="btn btn-black" onclick="showPlayerLogin()">STUDENTE (Entra)</button>
+            <p>Come vuoi partecipare? / Comment voulez-vous participer?</p>
+            <button class="btn btn-black" onclick="initHost()">DOCENTE / ENSEIGNANT (Crea Partita)</button>
+            <button class="btn btn-black" onclick="showPlayerLogin()">STUDENTE / ÉTUDIANT (Entra)</button>
         </div>
         <p class="footer-note">Powered by Google Firebase</p>
     </div>
 
     <!-- 2. PLAYER LOGIN -->
     <div id="player-login" class="screen full-screen flex-center hidden bg-blue">
-        <h1>Entra in partita</h1>
+        <h1>Entra in partita / Rejoindre la partie</h1>
         <input type="number" id="p-pin" placeholder="PIN Partita (es. 123456)">
-        <input type="text" id="p-name" placeholder="Il tuo Nickname">
-        <button class="btn btn-black" onclick="initPlayer()">ENTRA</button>
-        <button class="btn btn-transparent" onclick="location.reload()">Indietro</button>
+        <input type="text" id="p-name" placeholder="Il tuo Nickname / Votre Surnom">
+        <button class="btn btn-black" onclick="initPlayer()">ENTRA / ENTRER</button>
+        <button class="btn btn-transparent" onclick="location.reload()">Indietro / Retour</button>
     </div>
 
     <!-- 3. HOST LOBBY -->
     <div id="lobby-screen" class="screen full-screen flex-center hidden bg-purple">
         <div class="pin-box">
-            PIN PARTITA: <strong id="lobby-pin" class="big-pin">...</strong>
+            PIN PARTITA / CODE DE JEU: <strong id="lobby-pin" class="big-pin">...</strong>
         </div>
-        <div id="lobby-status">In attesa dei giocatori...</div>
+        <div id="lobby-status">In attesa dei giocatori... / En attente des joueurs...</div>
 
         <!-- Timer Setting -->
         <div class="timer-setting"
             style="margin: 20px; color: white; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; justify-content: center;">
             <div>
-                <label for="game-timer-input">Secondi: </label>
+                <label for="game-timer-input">Secondi / Secondes: </label>
                 <input type="number" id="game-timer-input" value="20" style="width: 60px; padding: 5px;">
             </div>
 
             <div>
-                <label for="question-set-select">Domande: </label>
+                <label for="question-set-select">Domande / Questions: </label>
                 <select id="question-set-select" style="padding: 5px; font-size: 1rem;">
                     <option value="base">Set Base (30 domande)</option>
                     <option value="images">Set Immagini (30 domande)</option>
@@ -68,24 +68,24 @@
             <!-- I giocatori appariranno qui -->
         </div>
         <div id="host-controls" class="hidden">
-            <button class="btn btn-black" onclick="startGame()">INIZIA QUIZ</button>
+            <button class="btn btn-black" onclick="startGame()">INIZIA QUIZ / START QUIZ</button>
         </div>
     </div>
 
     <!-- 3b. PLAYER LOBBY (WAITING) -->
     <div id="player-lobby-screen" class="screen full-screen flex-center hidden bg-purple">
-        <h1>Sei dentro!</h1>
-        <p style="color: white; font-size: 1.5rem;">Benvenuto, <span id="lobby-p-nick"
+        <h1>Sei dentro! / Vous y êtes!</h1>
+        <p style="color: white; font-size: 1.5rem;">Benvenuto / Bienvenue, <span id="lobby-p-nick"
                 style="font-weight: bold;"></span></p>
-        <p style="color: white;">Vedi il tuo nome sullo schermo del prof?</p>
-        <div class="loader" style="margin-top: 20px;">⏳ In attesa dell'avvio...</div>
+        <p style="color: white;">Vedi il tuo nome sullo schermo del prof? / Voyez-vous votre nom sur l'écran?</p>
+        <div class="loader" style="margin-top: 20px;">⏳ In attesa dell'avvio... / En attente du démarrage...</div>
     </div>
 
     <!-- 4. HOST GAME VIEW -->
     <div id="host-game-screen" class="screen full-screen hidden bg-light">
         <div class="host-header">
-            <div>Domanda <span id="h-qnum">1</span>/30</div>
-            <div id="h-timer">Tempo: 20</div>
+            <div>Domanda / Question <span id="h-qnum">1</span>/30</div>
+            <div id="h-timer">Tempo / Temps: 20</div>
         </div>
 
         <div class="question-card" id="h-question-container">
@@ -134,13 +134,13 @@
                 <!-- Right: Mini Leaderboard -->
                 <div
                     style="flex: 0.6; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 8px; display: flex; flex-direction: column;">
-                    <h3 style="text-align: center; margin: 0 0 10px 0;">Classifica</h3>
+                    <h3 style="text-align: center; margin: 0 0 10px 0;">Classifica / Classement</h3>
                     <div id="int-list" style="flex: 1; overflow-y: auto;"></div>
                 </div>
             </div>
 
             <center style="margin-top: 20px;">
-                <button class="btn btn-purple" onclick="nextQuestion()">Prossima Domanda >></button>
+                <button class="btn btn-purple" onclick="nextQuestion()">Prossima Domanda / Question Suivante >></button>
             </center>
         </div>
 
@@ -158,7 +158,7 @@
     <!-- 6. FINAL LEADERBOARD -->
     <div id="final-screen" class="screen full-screen flex-center hidden bg-purple">
         <div style="width: 100%; max-width: 900px; padding: 20px;">
-            <h1 class="logo-title" style="text-align: center; margin-bottom: 40px;">🏆 PODIO FINALE 🏆</h1>
+            <h1 class="logo-title" style="text-align: center; margin-bottom: 40px;">🏆 PODIO FINALE / PODIUM 🏆</h1>
 
             <!-- Podium Container -->
             <div id="podium"
@@ -172,7 +172,7 @@
             </div>
 
             <center style="margin-top: 40px;">
-                <button class="btn btn-black" onclick="location.reload()">Nuova Partita</button>
+                <button class="btn btn-black" onclick="location.reload()">Nuova Partita / Nouvelle Partie</button>
             </center>
         </div>
     </div>
@@ -185,7 +185,7 @@
         </div>
 
         <div id="p-waiting" class="flex-center flex-grow">
-            <div class="wait-message" id="p-msg">Guarda lo schermo del prof!</div>
+            <div class="wait-message" id="p-msg">Guarda lo schermo del prof! / Regardez l'écran du prof!</div>
         </div>
 
         <div id="p-controller" class="controller-grid hidden">

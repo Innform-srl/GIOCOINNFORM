@@ -204,7 +204,7 @@ function loadHostQuestion(idx) {
     for (let i = 0; i < 4; i++) document.getElementById('opt-' + i).innerText = q.options[i];
 
     let timeLeft = globalTimeSettings;
-    document.getElementById('h-timer').innerText = "Tempo: " + timeLeft;
+    document.getElementById('h-timer').innerText = "Tempo / Temps: " + timeLeft;
 
     // Reset Listeners
     if (answerListener) answerListener(); // Stacca il listener precedente se esiste
@@ -240,7 +240,7 @@ function loadHostQuestion(idx) {
     clearInterval(timerInterval);
     timerInterval = setInterval(() => {
         timeLeft--;
-        document.getElementById('h-timer').innerText = "Tempo: " + timeLeft;
+        document.getElementById('h-timer').innerText = "Tempo / Temps: " + timeLeft;
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             if (answerListener) answerListener();
@@ -292,7 +292,7 @@ async function showStats(qIdx) {
     // MOSTRO LA DOMANDA nel riepilogo
     document.getElementById('stats-question-text').innerText = questions[qIdx].q;
 
-    document.getElementById('correct-answer-text').innerText = "Risposta corretta: " + questions[qIdx].options[questions[qIdx].correct];
+    document.getElementById('correct-answer-text').innerText = "Risposta corretta / Réponse correcte: " + questions[qIdx].options[questions[qIdx].correct];
 
     // 2. RENDER MINI LEADERBOARD (Sorted in JS)
     playersData.sort((a, b) => (b.score || 0) - (a.score || 0));
@@ -421,7 +421,7 @@ function showPlayerLogin() {
 async function initPlayer() {
     const pin = document.getElementById('p-pin').value;
     const nick = document.getElementById('p-name').value;
-    if (pin.length < 6 || nick.length < 1) return alert("Inserisci dati validi");
+    if (pin.length < 6 || nick.length < 1) return alert("Inserisci dati validi / S'il vous plaît entrer des données valides");
 
     await window.auth.signInAnonymously();
     myRole = 'PLAYER';
@@ -430,7 +430,7 @@ async function initPlayer() {
 
     const sessionRef = window.db.collection('kahoot_sessions').doc(gamePin);
     const doc = await sessionRef.get();
-    if (!doc.exists) return alert("Partita non trovata!");
+    if (!doc.exists) return alert("Partita non trovata! / Partie introuvable!");
 
     await sessionRef.collection('players').doc(myId).set({
         nickname: nick,
@@ -473,7 +473,7 @@ function handleGameStateChange(data) {
         document.getElementById('p-waiting').classList.add('hidden');
         document.getElementById('p-feedback').classList.add('hidden');
         document.getElementById('p-controller').classList.remove('hidden');
-        document.getElementById('p-msg').innerText = "Rispondi ora!";
+        document.getElementById('p-msg').innerText = "Rispondi ora! / Répondez maintenant!";
 
         const btns = document.querySelectorAll('.control-btn');
         btns.forEach(b => { b.disabled = false; b.style.opacity = 1; });
