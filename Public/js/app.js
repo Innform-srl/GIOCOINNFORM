@@ -158,12 +158,12 @@ async function startGame() {
         timerSeconds: globalTimeSettings,
         questionSet: selectedSet
     });
-});
 
-// Mostra il PIN anche nella schermata di gioco
-document.getElementById('game-pin-display').innerText = gamePin;
 
-loadHostQuestion(0);
+    // Mostra il PIN anche nella schermata di gioco
+    document.getElementById('game-pin-display').innerText = gamePin;
+
+    loadHostQuestion(0);
 }
 
 async function nextQuestion() {
