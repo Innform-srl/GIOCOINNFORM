@@ -465,7 +465,7 @@ async function initPlayer() {
 function handleGameStateChange(data) {
     if (!data) return;
 
-    if (data.state === 'QUESTION') {
+    if (data.state === 'QUESTION' || data.state === 'GAME') {
         // RESET per nuova domanda
         hasAnsweredThisRound = false;
 
