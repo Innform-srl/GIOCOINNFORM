@@ -158,7 +158,12 @@ async function startGame() {
         timerSeconds: globalTimeSettings,
         questionSet: selectedSet
     });
-    loadHostQuestion(0);
+});
+
+// Mostra il PIN anche nella schermata di gioco
+document.getElementById('game-pin-display').innerText = gamePin;
+
+loadHostQuestion(0);
 }
 
 async function nextQuestion() {
@@ -432,11 +437,21 @@ async function initPlayer() {
     const doc = await sessionRef.get();
     if (!doc.exists) return alert("Partita non trovata! / Partie introuvable!");
 
-    await sessionRef.collection('players').doc(myId).set({
-        nickname: nick,
-        score: 0,
-        currentAnswer: -1
-    });
+    // Check if player already exists to avoid score reset
+    const playerRef = sessionRef.collection('players').doc(myId);
+    const pDoc = await playerRef.get();
+
+    if (pDoc.exists) {
+        // Update only nickname if changed, preserve score
+        await playerRef.update({ nickname: nick });
+    } else {
+        // New player
+        await playerRef.set({
+            nickname: nick,
+            score: 0,
+            currentAnswer: -1
+        });
+    }
 
     // Reindirizza alla Lobby Privata dello studente
     showScreen('player-lobby-screen');
