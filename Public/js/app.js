@@ -447,7 +447,18 @@ async function initPlayer() {
     if (lobbyNick) lobbyNick.innerText = nick;
 
     sessionRef.onSnapshot(docSnap => {
-        handleGameStateChange(docSnap.data());
+        const data = docSnap.data();
+
+        // Sincronizza il set di domande se presente
+        if (data.questionSet) {
+            if (data.questionSet === 'images') {
+                questions = questionsImages;
+            } else {
+                questions = questionsBase;
+            }
+        }
+
+        handleGameStateChange(data);
     });
 }
 
