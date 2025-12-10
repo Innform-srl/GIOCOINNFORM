@@ -48,9 +48,20 @@
         <div id="lobby-status">In attesa dei giocatori...</div>
 
         <!-- Timer Setting -->
-        <div class="timer-setting" style="margin: 20px; color: white;">
-            <label for="game-timer-input">Secondi per domanda: </label>
-            <input type="number" id="game-timer-input" value="20" style="width: 80px; padding: 5px;">
+        <div class="timer-setting"
+            style="margin: 20px; color: white; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; justify-content: center;">
+            <div>
+                <label for="game-timer-input">Secondi: </label>
+                <input type="number" id="game-timer-input" value="20" style="width: 60px; padding: 5px;">
+            </div>
+
+            <div>
+                <label for="question-set-select">Domande: </label>
+                <select id="question-set-select" style="padding: 5px; font-size: 1rem;">
+                    <option value="base">Set Base (30 domande)</option>
+                    <option value="images">Set Immagini (30 domande)</option>
+                </select>
+            </div>
         </div>
 
         <div id="player-list" class="player-grid">
@@ -77,8 +88,11 @@
             <div id="h-timer">Tempo: 20</div>
         </div>
 
-        <div class="question-card" id="h-question-text">
-            Caricamento...
+        <div class="question-card" id="h-question-container">
+            <h2 id="h-question-text">Testo Domanda...</h2>
+            <!-- Image Container -->
+            <img id="h-question-image" class="hidden" src="" alt="Question Image"
+                style="max-width: 100%; max-height: 300px; margin: 20px auto; border-radius: 8px; display: none;">
         </div>
 
         <!-- STATS & LEADERBOARD VIEW (Merged) -->
@@ -189,7 +203,7 @@
 
     <!-- Collegamento agli Script (IMPORTANTE: L'ordine conta) -->
     <script src="Public/firebase-config.js?v=2"></script>
-    <script src="Public/js/app.js?v=4"></script>
+    <script src="Public/js/app.js?v=6"></script>
 </body>
 
 </html>

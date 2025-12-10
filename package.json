@@ -1,0 +1,24 @@
+{
+  "name": "khaoot-innform",
+  "version": "1.0.0",
+  "description": "Un clone di Kahoot per uso didattico, sviluppato per giocare in classe con domande di informatica.",
+  "homepage": "https://github.com/Innform-srl/GIOCOINNFORM#readme",
+  "bugs": {
+    "url": "https://github.com/Innform-srl/GIOCOINNFORM/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Innform-srl/GIOCOINNFORM.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "http-server -c-1 ."
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
